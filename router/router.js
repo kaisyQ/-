@@ -10,17 +10,20 @@ router.get('/users', async (req, res) => {
     res.json(jsonArr)
 })
 
-router.get('/create', async (req, res) => {
-    await createUserWithProfile('email', '123', 'firstname', 'lastname')
-})
+// router.get('/register', async (req, res) => {
+//     //await createUserWithProfile('email', '123', 'firstname', 'lastname')
+// })
 
 
-router.post('/login', (req, res) => {
-    console.log(req.body)
-    res.json({token: 'token123'})
-})
+// router.post('/login', (req, res) => {
+//     console.log(req.body)
+//     res.json({token: 'token123'})
+// })
 
 router.get('/me', (req, res) => {
+    if (req.headers.cookie) {
+        
+    }
     console.log(req.headers.cookie)
 })
 export default router

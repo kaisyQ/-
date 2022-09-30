@@ -40,6 +40,7 @@ class Auth {
             })
             if(!user) {
                 const newUser = await User.create({ email, password, firstname, lastname })
+                // createUserWithProfile
                 return JSON.stringify({
                     resultCode: 0,
                     message: 'USER_WAS_CREATED',
@@ -59,6 +60,10 @@ class Auth {
                 error: err
             })
         }
+    }
+
+    checkMe = () => {
+        
     }
 }
 

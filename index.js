@@ -27,9 +27,9 @@ app.use(router)
 const startApp = async () => {
     try {
         await sequelize.authenticate()
-        await Links.sync({ force: true })
-        await Profile.sync({ force: true })
-        await User.sync({ force: true })        
+        await Links.sync()
+        await Profile.sync()
+        await User.sync()        
     } catch (err) {
         console.error(err)
     }
