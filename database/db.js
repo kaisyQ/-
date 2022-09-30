@@ -7,13 +7,5 @@ const sequelize = new Sequelize('sqlite::memory:', {
     }
 })
 
-export const syncAllTables = async () => {
-    for(const model in sequelize.models) {
-        await model.sync()
-    }
-    // in -> of
-}
-
-
 
 export default sequelize
