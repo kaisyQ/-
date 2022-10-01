@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { JWT_KEY as privateKey } from '../../config/config'
+import { JWT_KEY as privateKey } from '../../../config/config'
 
 export const signJwt = (email, password) => jwt.sign({ email, password }, privateKey, { algorithm: 'RS256' })
 
