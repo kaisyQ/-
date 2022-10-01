@@ -7,6 +7,6 @@ export const getUsers = async (req, res) => {
     //const responseUsers = await getUsersApi(pageSize, pageNumber)
     const responseUsers = await User.findAll()
     res
-        .json({ responseUsers })
+        .json(JSON.stringify({ responseUsers }))
         .status(200)
 }

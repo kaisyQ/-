@@ -34,7 +34,6 @@ export const register = async (req, res, next) => {
                 user: responseData.user,
                 token: responseData.token
             }))
-            console.log('in register')
     } else {
         if (responseData.error) {
             res
@@ -48,7 +47,6 @@ export const register = async (req, res, next) => {
 }
 
 export const checkMe = async (req, res) => {
-    console.log('ME')
     const token = getCookie(req)
     if (token) {
         const responseData = await authApi.checkMe(token)
