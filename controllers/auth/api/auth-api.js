@@ -64,12 +64,10 @@ class Auth {
 
     checkMe = async (token) => {
         const user = decodeJwt(token)
-        console.log('USER IS ', user)
         const userObject = await User.findOne({where: {
             email: user.email,
             password: user.password
         }})
-        console.log(userObject)
         if(userObject) {
             return {
                 resultCode: 0,
