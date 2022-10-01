@@ -5,17 +5,14 @@ import authApi from "./api/auth-api.js"
 export const login = async (req, res, next) => {
     const { email, password } = req.body
     const responseData = await authApi.login(email, password)
-
     if (responseData.error) {
         res
             .status(501)
-            .statusText('Query error')
             next()
     }
     if (responseData.resultCode === 0) {
         res
             .status(200)
-            .statusText('success')
             .json({
                 user: responseData.user,
                 token: responseData.token
@@ -23,7 +20,6 @@ export const login = async (req, res, next) => {
     } else {
         res
             .status(400)
-            .statusText('bad request')
     }
 
 }
@@ -38,6 +34,7 @@ export const register = async (req, res, next) => {
                 user: responseData.user,
                 token: responseData.token
             }))
+            console.log('in register')
     } else {
         if (responseData.error) {
             res
@@ -51,6 +48,7 @@ export const register = async (req, res, next) => {
 }
 
 export const checkMe = async (req, res) => {
+    console.log('ME')
     const token = getCookie(req)
     if (token) {
         const responseData = await authApi.checkMe(token)

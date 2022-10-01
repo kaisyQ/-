@@ -6,32 +6,32 @@ class Auth {
 
     login = async (email, password) => {
         try {
-            const user = await User.findAll({ where: { email, password } })
+            const user = await User.findOne({ where: { email, password } })
             if (!user) {
-                return JSON.stringify({
+                return {
                     resultCode: 1,
                     message: 'USER_NOT_FOUND'
-                })
+                }
             } else {
-                return JSON.stringify({
+                return {
                     resultCode: 0,
                     token: signJwt(email, password),
                     message: 'SUCCESS',
                     user
-                })
+                }
             }
         } catch (err) {
-            return JSON.stringify({
+            return {
                 resultCode: 0,
                 message: 'THERE_IS_SOME_ERROR',
                 error: err
-            })
+            }
         }
     }
 
     register = async (email, password, firstname, lastname) => {
         try {
-            const user = await User.findAll({ 
+            const user = await User.findOne({ 
                 where: { 
                     email,
                     password,
@@ -64,14 +64,16 @@ class Auth {
 
     checkMe = async (token) => {
         const user = decodeJwt(token)
-        const result = User.findOne({where: {
+        console.log('USER IS ', user)
+        const userObject = await User.findOne({where: {
             email: user.email,
             password: user.password
         }})
-        if(result) {
+        console.log(userObject)
+        if(userObject) {
             return {
                 resultCode: 0,
-                user: result.toJSON()
+                user: userObject
             }
         } else {
             return {

@@ -8,7 +8,7 @@ const router = Router()
 
 /* users routes */
 
-router.get('/users/:pageSize/:pageNumber', getUsers)
+router.get('/users/:pageSize?/:pageNumber?', getUsers)
 
 /* auth routes */
 
