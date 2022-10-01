@@ -1,26 +1,20 @@
 import { Router } from "express"
-//import { createUserWithProfile } from "../database/models/user/create-user.js"
-import User from "../database/models/user/user.js"
 import { getUsers } from "../controllers/users/users-controller.js"
+import { checkMe, login, register } from "../controllers/auth/auth-controller.js"
 
 const router = Router()
 
-router.get('/users', getUsers)
-
-// router.get('/register', async (req, res) => {
-//     //await createUserWithProfile('email', '123', 'firstname', 'lastname')
-// })
 
 
-// router.post('/login', (req, res) => {
-//     console.log(req.body)
-//     res.json({token: 'token123'})
-// })
+/* users routes */
 
-router.get('/me', (req, res) => {
-    if (req.headers.cookie) {
-        
-    }
-    console.log(req.headers.cookie)
-})
+router.get('/users/:pageSize/:pageNumber', getUsers)
+
+/* auth routes */
+
+router.post('/login', login)
+router.post('/register', register)
+router.get('/me', checkMe)
+
+
 export default router

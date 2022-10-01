@@ -1,9 +1,10 @@
-import { signJwt } from "./jwt-maker"
-import User from "../models/user"
+import { decodeJwt, signJwt } from "./jwt-maker.js"
+import User from "../../../database/models/user/user.js"
+import { createUserWithProfile } from "../../../database/models/user/create-user.js"
 
 class Auth {
 
-    signIn = async (email, password) => {
+    login = async (email, password) => {
         try {
             const user = await User.findAll({ where: { email, password } })
             if (!user) {
@@ -28,7 +29,7 @@ class Auth {
         }
     }
 
-    signUp = async (email, password, firstname, lastname) => {
+    register = async (email, password, firstname, lastname) => {
         try {
             const user = await User.findAll({ 
                 where: { 
@@ -39,31 +40,44 @@ class Auth {
                 } 
             })
             if(!user) {
-                const newUser = await User.create({ email, password, firstname, lastname })
-                // createUserWithProfile
-                return JSON.stringify({
+                const { newUser } = createUserWithProfile(email, password, firstname, lastname)
+                return {
                     resultCode: 0,
                     message: 'USER_WAS_CREATED',
-                    user: newUser.toJSON(),
+                    user: newUser,
                     token: signJwt(email, password)
-                })
+                }
             } else {
-                return JSON.stringify({
+                return {
                     resultCode: 1,
                     message: 'USER_EXISTS'
-                })
+                }
             }
         } catch (err) {
-            return JSON.stringify({
+            return {
                 resultCode: 1,
                 message: 'THERE_IS_SOME_ERROR',
                 error: err
-            })
+            }
         }
     }
 
-    checkMe = () => {
-        
+    checkMe = async (token) => {
+        const user = decodeJwt(token)
+        const result = User.findOne({where: {
+            email: user.email,
+            password: user.password
+        }})
+        if(result) {
+            return {
+                resultCode: 0,
+                user: result.toJSON()
+            }
+        } else {
+            return {
+                resultCode: 1
+            }
+        }
     }
 }
 

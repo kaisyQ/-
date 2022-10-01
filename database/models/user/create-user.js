@@ -9,12 +9,13 @@ export const createUserWithProfile = async (
         const newUserId = (await User.findAll()).length + 1
         await Links.create({id: newUserId})
         await Profile.create({id: newUserId, linksId: newUserId})
-        await User.create({
+        const user = await User.create({
             id: newUserId,
             email, password, firstName, lastName,
             profileId: newUserId
         })
         return {
+            user: user.toJSON(), 
             resultCode: 0
         }
     } catch(err) {
