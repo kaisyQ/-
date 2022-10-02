@@ -1,0 +1,30 @@
+GET http://localhost:4000/users
+
+###
+
+GET http://localhost:4000/users/3
+
+###
+
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+    "firstname": "UserThreeButIdSix",
+    "lastname": "Exists",
+    "email": "someMMoreEmail",
+    "password": "345"
+}
+
+###
+
+DELETE  http://localhost:4000/users/3
+
+###
+
+PATCH   http://localhost:4000/users/4
+Content-Type: application/json
+
+{
+    "firstname": "UserOneButIdFour"
+}
