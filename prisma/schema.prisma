@@ -26,7 +26,9 @@ model Profile {
   aboutMyJob  String?    
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) 
   userId      Int       @unique
-  links       Links?    
+  links       Links?   
+  followedBy  Profile[] @relation("ProfileFollows")
+  follows     Profile[] @relation("ProfileFollows") 
 }
 
 model Links {

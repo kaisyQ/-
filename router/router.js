@@ -1,25 +1,15 @@
 import { Router } from "express"
 import { PrismaClient } from '@prisma/client'
-// import { getUsers } from "../controllers/users/users-controller.js"
-// import { checkMe, login, register } from "../controllers/auth/auth-controller.js"
+import { getUsers } from "../controllers/users/users-controller.js"
+import { getProfile } from "../controllers/users/users-controller.js"
+import { updateProfile } from "../controllers/users/users-controller.js"
+import { updateLinks } from "../controllers/users/users-controller.js"
+import { follow } from "../controllers/users/users-controller.js"
+import { unfollow } from "../controllers/users/users-controller.js"
+import { checkMe, login, register } from "../controllers/auth/auth-controller.js"
 
 const router = Router()
-const prisma = new PrismaClient()
-
-/* some functions */
-
-// const getUsers = async (pageSize=2, pageNumber=1) => {
-//     let users = []
-//     try {
-//         users = await prisma.user.findMany()
-//     } catch (err) {
-//         console.error(err)
-//     }
-//     const jsonUsers = users.map(user => user)
-//     console.log(jsonUsers[0])
-//     console.log(jsonUsers.slice((0, pageNumber*pageSize+1)))
-//     return JSON.stringify(jsonUsers.slice(((pageNumber-1)*pageSize), pageNumber*pageSize+1))
-// }
+export const prisma = new PrismaClient()
 
 
 /* users routes */
@@ -96,14 +86,19 @@ router.patch('/users/:id', async (req, res, next) => {
     }
 })
 
-// router.get('/users/:pageSize/:pageNumber', getUsers)
+router.get('/users/:pageSize/:pageNumber', getUsers)
+router.get('/profile/:id', getProfile)
+router.patch('/profile/:id', updateProfile)
+router.patch('/profile/:id/links', updateLinks)
+router.patch('/profile/:followerId/follow/:followedId', follow)
+router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)
 
 
 /* auth routes */
 
-// router.post('/login', login)
-// router.post('/register', register)
-// router.get('/me', checkMe)
+router.post('/login', login)
+router.post('/register', register)
+router.get('/me', checkMe)
 
 
 export default router
