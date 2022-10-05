@@ -53,8 +53,8 @@ POST    http://localhost:4000/login
 Content-Type: application/json
 
 {
-    "email": "someMMoreEmail",
-    "password": "345"
+    "email": "4",
+    "password": "4"
 }
 
 ###
@@ -107,3 +107,37 @@ PATCH   http://localhost:4000/profile/2/follow/5
 ###
 
 DELETE   http://localhost:4000/profile/5/unfollow/6
+
+###
+
+POST http://localhost:4000/profile/5/createPost
+Content-Type: application/json
+
+{
+    "text": "pizda"
+}
+
+###
+
+DELETE http://localhost:4000/profile/5/deletePost/6
+
+###
+
+PATCH http://localhost:4000/profile/5/posts/8
+Content-Type: application/json
+
+{
+    "text": "EZ"
+}
+
+###
+
+GET http://localhost:4000/posts/3/1
+
+###
+
+GET http://localhost:4000/profile/5/posts/3/1
+
+###
+
+GET http://localhost:4000/profile/5/posts/15

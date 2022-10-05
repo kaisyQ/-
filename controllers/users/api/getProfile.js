@@ -9,10 +9,11 @@ export const getProfileApi = async (id) => {
             include: {
                 followedBy: true,
                 follows: true,
-                links: true
+                links: true,
+                posts: true
             }
         })
-        console.log(profiles.followedBy)
+        console.log(profiles.posts)
         const renewedProfiles = JSON.stringify({
             id: profiles.id,
             status: profiles.status,
@@ -25,7 +26,8 @@ export const getProfileApi = async (id) => {
                 id: f.id
             }))  : 'Пользователь принимает одиночество',
             userId: profiles.userId,
-            links: profiles.links ? profiles.links : 'Пользователь не развращен интернетом'
+            links: profiles.links ? profiles.links : 'Пользователь не развращен интернетом',
+            posts: profiles.posts
         })
         return renewedProfiles
     } catch (error) {

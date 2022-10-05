@@ -4,6 +4,11 @@ import { updateProfileApi} from "./api/updateProfile.js"
 import { updateLinksApi } from "./api/updateLinks.js"
 import { followApi } from "./api/follow.js"
 import { unfollowApi } from "./api/unfollow.js"
+import { createPostApi } from "./api/createPost.js"
+import { deletePostApi } from "./api/deletePost.js"
+import { updatePostApi } from "./api/updatePost.js"
+import { getAllPostsApi } from "./api/getAllPosts.js"
+import { getProfilePostApi } from "./api/getProfilePost.js"
 
 export const getUsers = async (req, res) => {
     const { pageSize, pageNumber } = req.params
@@ -54,5 +59,53 @@ export const unfollow = async (req, res) => {
     const responseUnfollows = await unfollowApi(unfollowerId, unfollowedId)
     res
         .json(responseUnfollows)
+        .status(200)
+}
+
+export const createPost = async (req, res) => {
+    const { id } = req.params
+    const {text} = req.body
+    console.log(text)
+    const responsePost = await createPostApi(id, text)
+    res 
+        .json(responsePost)
+        .status(200)
+}
+
+export const deletePost = async (req, res) => {
+    const { postId } = req.params
+    console.log(postId)
+    const responsePost = await deletePostApi(postId)
+    res 
+        .json(responsePost)
+        .status(200)
+}
+
+export const updatePost = async (req, res) => {
+    const { postId } = req.params
+    console.log(postId)
+    const data = req.body
+    console.log(data)
+    const responsePost = await updatePostApi(postId, data)
+    res 
+        .json(responsePost)
+        .status(200)
+}
+
+export const getAllPosts = async (req, res) => {
+    const { pageSize, pageNumber } = req.params
+    console.log(pageSize, pageNumber)
+    const responseAllPosts = await getAllPostsApi(pageSize, pageNumber)
+    res
+        .json(responseAllPosts)
+        .status(200)
+}
+
+export const getProfilePost = async (req, res) => {
+    const { id, postId } = req.params
+    console.log(postId)
+    const responsePost = await getProfilePostApi(postId)
+    res 
+        .json(responsePost)
         .status(200)
 }
