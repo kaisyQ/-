@@ -1,30 +1,16 @@
 import { Router } from "express"
 import { PrismaClient } from '@prisma/client'
-
-
 import { getUsers } from "../controllers/users/users-controller.js"
-
-
 import { getProfile } from "../controllers/users/users-controller.js"
-
-
 import { updateProfile } from "../controllers/users/users-controller.js"
-
-
 import { updateLinks } from "../controllers/users/users-controller.js"
-
-
 import { follow } from "../controllers/users/users-controller.js"
 import { unfollow } from "../controllers/users/users-controller.js"
-
-
 import { createPost } from "../controllers/users/users-controller.js"
 import { deletePost } from "../controllers/users/users-controller.js"
 import { updatePost } from "../controllers/users/users-controller.js"
 import { getAllPosts } from "../controllers/users/users-controller.js"
 import { getProfilePost } from "../controllers/users/users-controller.js"
-
-
 import { checkMe, login, register } from "../controllers/auth/auth-controller.js"
 
 const router = Router()
