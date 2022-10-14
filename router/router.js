@@ -100,13 +100,16 @@ router.patch('/profile/:id/links', updateLinks)
 
 router.get('/posts/:pageSize/:pageNumber', getAllPosts)
 router.get('/profile/:id/posts/:postId', getProfilePost)
-router.post('/profile/:id/createPost', createPost)
 router.patch('/profile/:id/posts/:postId', updatePost)
 router.delete('/profile/:id/deletePost/:postId', deletePost)
 
 router.patch('/profile/:followerId/follow/:followedId', follow)
 router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)
 
+
+
+router.post('/post', createPost)
+router.delete('/post/:id', deletePost)
 
 // router.patch('/profile/follow/:followerId/:followedId', follow)
 // router.delete('/profile/follow/:unfollowerId/:unfollowedId', unfollow)

@@ -7,7 +7,6 @@ class Auth {
     login = async (email, password) => {
         try {
             const user = await prisma.user.findFirst({ where: { email, password } })
-            console.log(user)
             if (!user) {
                 return {
                     resultCode: 1,
@@ -32,6 +31,12 @@ class Auth {
 
     register = async (email, password, firstname, lastname) => {
         try {
+
+            if (!email || !password || !firstname || !lastname) {
+                return {
+                    resultCode: 1
+                }
+            }
             const user = await prisma.user.findFirst({ 
                 where: { 
                     email,
@@ -40,12 +45,13 @@ class Auth {
                     lastname
                 } 
             })
+            
             if(!user) {
-                const { newUser } = createUserWithProfile(email, password, firstname, lastname)
+                const { newUser } = await createUserWithProfile(email, password, firstname, lastname)
                 return {
                     resultCode: 0,
                     message: 'USER_WAS_CREATED',
-                    user: newUser,
+                    newUser,
                     token: signJwt(email, password)
                 }
             } else {
@@ -61,6 +67,7 @@ class Auth {
                 error
             }
         }
+    
     }
 
     checkMe = async (token) => {

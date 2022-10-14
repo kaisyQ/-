@@ -20,6 +20,7 @@ export const getUsers = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     const { id } = req.params
+    console.log(id)
     const responseProfile = await getProfileApi(id)
     res
         .json(responseProfile)
@@ -63,21 +64,25 @@ export const unfollow = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
-    const { id } = req.params
-    const {text} = req.body
-    console.log(text)
+    const { id, text } = req.body
+    console.log(text, id)
     const responsePost = await createPostApi(id, text)
     res 
-        .json(responsePost)
+        .json({
+            resultCode: 0,
+            responsePost
+        })
         .status(200)
 }
 
 export const deletePost = async (req, res) => {
-    const { postId } = req.params
-    console.log(postId)
-    const responsePost = await deletePostApi(postId)
+    const { id } = req.params
+    const responsePost = await deletePostApi(id)
     res 
-        .json(responsePost)
+        .json({
+            responsePost,
+            resultCode: 0
+        })
         .status(200)
 }
 
@@ -94,7 +99,6 @@ export const updatePost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
     const { pageSize, pageNumber } = req.params
-    console.log(pageSize, pageNumber)
     const responseAllPosts = await getAllPostsApi(pageSize, pageNumber)
     res
         .json(responseAllPosts)

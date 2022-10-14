@@ -10,12 +10,14 @@ export const getProfileApi = async (id) => {
                 followedBy: true,
                 follows: true,
                 links: true,
-                posts: true
+                posts: true,
+                user: true
             }
         })
-        console.log(profiles.posts)
         const renewedProfiles = JSON.stringify({
             id: profiles.id,
+            firstname: profiles.user.firstname,
+            lastname: profiles.user.lastname,
             status: profiles.status,
             aboutMe: profiles.aboutMe,
             aboutMyJob: profiles.aboutMyJob,

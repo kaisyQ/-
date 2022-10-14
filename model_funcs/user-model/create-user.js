@@ -4,9 +4,6 @@ export const createUserWithProfile = async (
      email, password, firstname, lastname
  ) => {
     try {
-        const newData = (await prisma.user.findMany()).length + 1
-        console.log(newData)
-        const newUserData = String(newData)
         const user = await prisma.user.create({
             data: {
                 email, password, firstname, lastname,
@@ -23,7 +20,7 @@ export const createUserWithProfile = async (
             }
         })
         return {
-            user: JSON.stringify(user), 
+            newUser: user, 
             resultCode: 0
         }
     } catch(error) {

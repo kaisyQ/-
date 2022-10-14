@@ -9,8 +9,8 @@ export const login = async (req, res, next) => {
     const responseData = await authApi.login(email, password)
     console.log(responseData)
     if (responseData.error) {
-        console.log('error')
         res
+            .json({ resultCode: 1 })
             .status(501)
             next()
     }
@@ -19,10 +19,12 @@ export const login = async (req, res, next) => {
             .status(200)
             .json({
                 user: responseData.user,
-                token: responseData.token
+                token: responseData.token,
+                resultCode: 0
             })
     } else {
         res
+            .json({ resultCode: 1 })
             .status(400)
     }
 
@@ -35,18 +37,20 @@ export const register = async (req, res, next) => {
         res
             .status(200)
             .json(JSON.stringify({
-                user: responseData.user,
-                token: responseData.token
+                user: responseData.newUser,
+                token: responseData.token,
+                resultCode: 0
             }))
     } else {
         if (responseData.error) {
             res
+                .json({ resultCode: 1 })
                 .status(501)
             next()
         }
             res
                 .status(400)
-                .status(responseData.message)
+                .json({ resultCode: 1 })
     }
 }
 
@@ -60,11 +64,13 @@ export const checkMe = async (req, res) => {
                 .status(200)
         } else {
             res
+                .json(JSON.stringify(responseData))
                 .status(401)
         }
 
     } else {
         res
+            .json(JSON.stringify({ resultCode: 1}))
             .status(401)
     }
 }
