@@ -19,83 +19,9 @@ export const prisma = new PrismaClient()
 
 /* users routes */
 
-router.get('/users', async (req, res, next) => {
-    try {
-        const users = await prisma.user.findMany({
-            include: { 
-                profile: true
-            },
-        })
-        const profiles = await prisma.profile.findMany({
-            include: { 
-                links: true
-            },
-        })
-        res.json({users, profiles})
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.get('/users/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params
-        const user = await prisma.user.findUnique({
-            where: {
-                id: Number(id)
-            }
-        })
-        res.json(user)
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.post('/users', async (req, res, next) => {
-    try {
-        const user = await prisma.user.create({
-            data: req.body
-        })
-        res.json(user)
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.delete('/users/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params
-        const deleteUser = await prisma.user.delete({
-            where: {
-                id: Number(id)
-            }
-        })
-        res.json(deleteUser)
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.patch('/users/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params
-        const patchUser = await prisma.user.update({
-            where: {
-                id: Number(id)
-            },
-            data: req.body
-        })
-        res.json(patchUser)
-    } catch (error) {
-        next(error)
-    }
-})
 
 router.get('/users/:pageSize/:pageNumber', getUsers)
 
-router.get('/profile/:id', getProfile)
-
-router.patch('/profile/:id/links', updateLinks)
 
 router.get('/posts/:pageSize/:pageNumber', getAllPosts)
 router.get('/profile/:id/posts/:postId', getProfilePost)
@@ -104,16 +30,15 @@ router.patch('/profile/:followerId/follow/:followedId', follow)
 router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)
 
 
+router.get('/profile/:id', getProfile)
+router.put('/profile', updateProfile)
 
 router.patch('/profile/status', updateStatus)
+router.patch('/profile/links', updateLinks)
 
 router.post('/post', createPost)
 router.delete('/post/:id', deletePost)
 router.patch('/post', updatePost)
-
-// router.patch('/profile/follow/:followerId/:followedId', follow)
-// router.delete('/profile/follow/:unfollowerId/:unfollowedId', unfollow)
-
 
 /* auth routes */
 
