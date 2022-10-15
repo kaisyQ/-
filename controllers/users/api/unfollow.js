@@ -1,10 +1,16 @@
 import { prisma } from "../../../router/router.js"
 
-export const unfollowApi = async (unfollowerId, unfollowedId) => {
+export const unfollowApi = async (email, toUnfollowUsId) => {
     try {
+
+        const user = await prisma.user.findFirst({
+            where: {
+                email
+            }
+        })
         const patchProfileFollower = await prisma.profile.update({
             where: {
-                id: Number(unfollowerId)
+                id: Number(user.id)
             },
             include: {
                 follows: true
@@ -12,7 +18,7 @@ export const unfollowApi = async (unfollowerId, unfollowedId) => {
             data: {
                 follows: {
                     disconnect: {
-                        id: Number(unfollowedId)
+                        id: Number(toUnfollowUsId)
                     },
                 }
             },
