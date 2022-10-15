@@ -15,16 +15,27 @@ import { getCookie } from "../cookie/cookie-check.js"
 import { decodeJwt } from "../auth/api/jwt-maker.js"
 
 export const getUsers = async (req, res) => {
-    const { pageSize, pageNumber } = req.params
-    const responseUsers = await getUsersApi(pageSize, pageNumber)
-    res
-        .json(responseUsers)
-        .status(200)
+
+    const { pageNumber } = req.params
+    const responseUsers = await getUsersApi(pageNumber)
+    if (responseUsers) {
+        res
+            .json({
+                resultCode: 0,
+                responseUsers
+            })
+            .status(200)
+    } else {
+        res
+            .json({
+                resultCode: 0
+            })
+    }
 }
 
 export const getProfile = async (req, res) => {
+
     const { id } = req.params
-    console.log(id)
     const responseProfile = await getProfileApi(id)
     res
         .json(responseProfile)
@@ -32,12 +43,24 @@ export const getProfile = async (req, res) => {
 }
 
 export const updateProfile = async (req, res) => {
-    const { id } = req.params
-    const  data  = req.body
-    const responseProfile = await updateProfileApi(id, data)
-    res
-        .json(responseProfile)
-        .status(200)
+    const cookie = getCookie(req)
+
+    const data  = req.body
+    
+    const { email } = decodeJwt(cookie)
+
+    const responseProfile = await updateProfileApi(email, data)
+    if (responseProfile) {
+        res
+            .json({
+                responseProfile,
+                resultCode: 0
+            })
+            .status(200)
+    } else {
+        res
+            .json({ resultCode: 1 })
+    }
 }
 
 export const updateLinks = async (req, res) => {
@@ -51,7 +74,6 @@ export const updateLinks = async (req, res) => {
 
 export const follow = async (req, res) => {
     const { followerId, followedId } = req.params
-    console.log(followerId, followedId)
     const responseFollows = await followApi(followerId, followedId)
     res
         .json(responseFollows)
@@ -69,7 +91,6 @@ export const unfollow = async (req, res) => {
 
 export const createPost = async (req, res) => {
     const { id, text } = req.body
-    console.log(text, id)
     const responsePost = await createPostApi(id, text)
     res 
         .json({
