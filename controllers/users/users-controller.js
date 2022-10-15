@@ -87,13 +87,14 @@ export const deletePost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
-    const { postId } = req.params
-    console.log(postId)
-    const data = req.body
-    console.log(data)
-    const responsePost = await updatePostApi(postId, data)
+    const { id, text } = req.body
+    const data = { text }
+    const responsePost = await updatePostApi(id, data)
     res 
-        .json(responsePost)
+        .json({
+            responsePost,
+            resultCode: 0
+        })
         .status(200)
 }
 
