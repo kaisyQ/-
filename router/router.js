@@ -26,8 +26,8 @@ router.get('/users/:pageNumber', getUsers)
 router.get('/posts/:pageSize/:pageNumbr', getAllPosts)
 router.get('/profile/:id/posts/:postId', getProfilePost)
 
-router.patch('/profile/:followerId/follow/:followedId', follow)
-router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)
+router.patch('/follow/', follow)
+router.patch('/unfollow', unfollow)
 
 
 router.get('/profile/:id', getProfile)

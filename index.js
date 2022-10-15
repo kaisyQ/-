@@ -36,7 +36,6 @@ io.on("connection", (socket) => {
 
     socket.on('connect-to-room', (data) => {
         let room = null
-        console.log(arrOfRooms[`room-${data.id}-${data.chatWithId}`])
         if (arrOfRooms[`room-${data.id}-${data.chatWithId}`]) {
             socket.join(`room-${data.id}-${data.chatWithId}`)
             room = `room-${data.id}-${data.chatWithId}`

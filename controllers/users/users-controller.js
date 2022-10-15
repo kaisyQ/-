@@ -74,20 +74,39 @@ export const updateLinks = async (req, res) => {
 }
 
 export const follow = async (req, res) => {
-    const { followerId, followedId } = req.params
-    const responseFollows = await followApi(followerId, followedId)
-    res
-        .json(responseFollows)
-        .status(200)
+    const { id } = req.body
+    const cookie = getCookie(req)
+    const { email } = decodeJwt(cookie)
+    const responseFollows = await followApi(email, id)
+    if (responseFollows) {
+        res
+            .json({
+                resultCode: 0,
+                responseFollows
+            })
+            .status(200)
+    } else {
+        res
+            .json({ resultCode: 1 })
+    }
 }
 
 export const unfollow = async (req, res) => {
-    const { unfollowerId, unfollowedId } = req.params
-    console.log(unfollowerId, unfollowedId)
-    const responseUnfollows = await unfollowApi(unfollowerId, unfollowedId)
-    res
-        .json(responseUnfollows)
-        .status(200)
+    const { id } = req.body
+    const cookie = getCookie(req)
+    const { email } = decodeJwt(cookie)
+    const responseUnfollows = await unfollowApi(email, id)
+    if (responseUnfollows) {
+        res
+            .json({
+                resultCode: 0,
+                responseUnfollows
+            })
+            .status(200)
+    } else {
+        res
+            .json({ resultCode: 1 })
+    }
 }
 
 export const createPost = async (req, res) => {
