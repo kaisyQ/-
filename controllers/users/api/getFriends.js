@@ -1,4 +1,3 @@
-import { transformDocument } from "@prisma/client/runtime/index.js"
 import { prisma } from "../../../router/router.js"
 
 export const getFriendsApi = async (id) => {
