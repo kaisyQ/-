@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { PrismaClient } from '@prisma/client'
-import { getUsers } from "../controllers/users/users-controller.js"
+import { getUsers, updateStatus } from "../controllers/users/users-controller.js"
 import { getProfile } from "../controllers/users/users-controller.js"
 import { updateProfile } from "../controllers/users/users-controller.js"
 import { updateLinks } from "../controllers/users/users-controller.js"
@@ -94,7 +94,6 @@ router.patch('/users/:id', async (req, res, next) => {
 router.get('/users/:pageSize/:pageNumber', getUsers)
 
 router.get('/profile/:id', getProfile)
-router.patch('/profile/:id', updateProfile)
 
 router.patch('/profile/:id/links', updateLinks)
 
@@ -105,6 +104,8 @@ router.patch('/profile/:followerId/follow/:followedId', follow)
 router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)
 
 
+
+router.patch('/profile/status', updateStatus)
 
 router.post('/post', createPost)
 router.delete('/post/:id', deletePost)

@@ -9,6 +9,10 @@ import { deletePostApi } from "./api/deletePost.js"
 import { updatePostApi } from "./api/updatePost.js"
 import { getAllPostsApi } from "./api/getAllPosts.js"
 import { getProfilePostApi } from "./api/getProfilePost.js"
+import { updateStatusApi } from "./api/updateStatus.js"
+
+import { getCookie } from "../cookie/cookie-check.js"
+import { decodeJwt } from "../auth/api/jwt-maker.js"
 
 export const getUsers = async (req, res) => {
     const { pageSize, pageNumber } = req.params
@@ -108,9 +112,31 @@ export const getAllPosts = async (req, res) => {
 
 export const getProfilePost = async (req, res) => {
     const { id, postId } = req.params
-    console.log(postId)
     const responsePost = await getProfilePostApi(postId)
     res 
         .json(responsePost)
         .status(200)
+}
+
+export const updateStatus = async (req, res) => {
+    const { status } = req.body
+    const data = { status }
+
+    const cookie = getCookie(req)
+    const { email } = decodeJwt(cookie)
+
+
+    const responseFromApi = await updateStatusApi(email, data) 
+    if (responseFromApi) {
+        res
+            .json({
+                responseFromApi,
+                resultCode: 0
+            })
+    } else {
+        res
+            .json({
+                resultCode: 1
+            })
+    }
 }
