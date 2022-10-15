@@ -15,11 +15,22 @@ import { getCookie } from "../cookie/cookie-check.js"
 import { decodeJwt } from "../auth/api/jwt-maker.js"
 
 export const getUsers = async (req, res) => {
-    const { pageSize, pageNumber } = req.params
-    const responseUsers = await getUsersApi(pageSize, pageNumber)
-    res
-        .json(responseUsers)
-        .status(200)
+
+    const { pageNumber } = req.params
+    const responseUsers = await getUsersApi(pageNumber)
+    if (responseUsers) {
+        res
+            .json({
+                resultCode: 0,
+                responseUsers
+            })
+            .status(200)
+    } else {
+        res
+            .json({
+                resultCode: 0
+            })
+    }
 }
 
 export const getProfile = async (req, res) => {

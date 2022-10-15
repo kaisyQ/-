@@ -20,10 +20,10 @@ export const prisma = new PrismaClient()
 /* users routes */
 
 
-router.get('/users/:pageSize/:pageNumber', getUsers)
+router.get('/users/:pageNumber', getUsers)
 
 
-router.get('/posts/:pageSize/:pageNumber', getAllPosts)
+router.get('/posts/:pageSize/:pageNumbr', getAllPosts)
 router.get('/profile/:id/posts/:postId', getProfilePost)
 
 router.patch('/profile/:followerId/follow/:followedId', follow)
