@@ -11,6 +11,7 @@ import { deletePost } from "../controllers/users/users-controller.js"
 import { updatePost } from "../controllers/users/users-controller.js"
 import { getAllPosts } from "../controllers/users/users-controller.js"
 import { getProfilePost } from "../controllers/users/users-controller.js"
+import { getFriends } from "../controllers/users/users-controller.js"
 import { checkMe, login, register } from "../controllers/auth/auth-controller.js"
 
 const router = Router()
@@ -25,6 +26,7 @@ router.get('/users/:pageNumber', getUsers)
 
 router.get('/posts/:pageSize/:pageNumbr', getAllPosts)
 router.get('/profile/:id/posts/:postId', getProfilePost)
+router.get('/friends', getFriends)
 
 router.patch('/profile/:followerId/follow/:followedId', follow)
 router.delete('/profile/:unfollowerId/unfollow/:unfollowedId', unfollow)

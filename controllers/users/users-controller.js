@@ -10,6 +10,7 @@ import { updatePostApi } from "./api/updatePost.js"
 import { getAllPostsApi } from "./api/getAllPosts.js"
 import { getProfilePostApi } from "./api/getProfilePost.js"
 import { updateStatusApi } from "./api/updateStatus.js"
+import { getFriendsApi } from "./api/getFriends.js"
 
 import { getCookie } from "../cookie/cookie-check.js"
 import { decodeJwt } from "../auth/api/jwt-maker.js"
@@ -24,6 +25,24 @@ export const getUsers = async (req, res) => {
             .json({
                 resultCode: 0,
                 responseUsers
+            })
+            .status(200)
+    } else {
+        res
+            .json({
+                resultCode: 0
+            })
+    }
+}
+
+export const getFriends = async (req, res) => {
+    const id = 1
+    const responseFriends = await getFriendsApi(id)
+    if (responseFriends) {
+        res
+            .json({
+                resultCode: 0,
+                responseFriends
             })
             .status(200)
     } else {
