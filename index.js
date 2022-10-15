@@ -12,25 +12,50 @@ import { CORS_OPTIONS } from './config/cors-options.js'
 
 const app = express()
 
+
 const server = http.createServer(app)
+
 const io = new Server(server, {
     cors: {
         origin:'http://localhost:3000',
         methods: ['GET', 'POST']
-,    }
+,   }
 })
+
+
+const arrOfRooms = [] // {idFrom: 1, idTo: 2: text: ''}
+
+
 
 io.on("connection", (socket) => {
     console.log(`User Connected : ${socket.id}`)
 
-    socket.on('chat_message', (msg) => {
-        console.log('message:' + msg)
-        io.emit('chat_message', msg)
-        // socket.join(msg)
-    })
-
     socket.on('disconnect', () => {
         console.log('User Disconnected', socket.id)
+    })
+
+    socket.on('connect-to-room', (data) => {
+        let room = null
+        console.log(arrOfRooms[`room-${data.id}-${data.chatWithId}`])
+        if (arrOfRooms[`room-${data.id}-${data.chatWithId}`]) {
+            socket.join(`room-${data.id}-${data.chatWithId}`)
+            room = `room-${data.id}-${data.chatWithId}`
+        } else {
+            socket.join(`room-${data.chatWithId}-${data.id}`)
+            room = `room-${data.chatWithId}-${data.id}`
+        }
+        arrOfRooms[room] = {
+            created: true,
+            messages: []
+        }
+
+        io.to(room).emit('initial', { room })
+    })
+
+    socket.on('send-message', (data) => {
+        arrOfRooms[data.room].messages.push(data.message)
+        
+        io.to(data.room).emit('all-messages', arrOfRooms[data.room].messages)
     })
 })
 
