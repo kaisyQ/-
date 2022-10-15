@@ -11,40 +11,58 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement()) 
+  id          Int                   @id @default(autoincrement()) 
   firstname   String    
   lastname    String    
-  email       String    @unique
+  email       String                @unique
   password    String    
   profile     Profile?  
 }
 
 model Profile {
-  id          Int       @id @default(autoincrement()) 
+  id          Int                   @id @default(autoincrement()) 
   status      String?    
   aboutMe     String?    
   aboutMyJob  String?    
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) 
-  userId      Int       @unique
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade) 
+  userId      Int                   @unique
   links       Links?   
   posts       Posts[]
-  followedBy  Profile[] @relation("ProfileFollows")
-  follows     Profile[] @relation("ProfileFollows") 
+  followedBy  Profile[]             @relation("ProfileFollows")
+  follows     Profile[]             @relation("ProfileFollows") 
+  chats       ChatsWithProfiles[]   
 }
 
 model Links {
-  id          Int       @id @default(autoincrement()) 
+  id          Int                   @id @default(autoincrement()) 
   vk          String?    
   twitter     String?    
   facebook    String?   
-  profile     Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId   Int       @unique
+  profile     Profile               @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId   Int                   @unique
 }
 
 model Posts {
-  id          Int       @id @default(autoincrement())
+  id          Int                   @id @default(autoincrement())
   text        String?   
-  likeCount   Int       @default(0)
-  profile     Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  likeCount   Int                   @default(0)
+  profile     Profile               @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId   Int       
 }
+
+model Chats {
+  id          Int                   @id @default(autoincrement())
+  text        String?
+  profiles    ChatsWithProfiles[]   
+}
+
+model ChatsWithProfiles {
+  profile     Profile               @relation(fields: [profileId], references: [id])
+  profileId   Int
+  chat        Chats                 @relation(fields: [chatId], references: [id])
+  chatId      Int
+
+  @@id([profileId, chatId])
+}
+
+
